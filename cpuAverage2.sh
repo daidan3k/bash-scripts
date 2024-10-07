@@ -6,7 +6,7 @@ DADES=$(ps -p $PID -o cputime=,etime=)
 CPUTIME=$(echo $DADES | cut -d " " -f1)
 ETIME=$(echo $DADES | cut -d " " -f2)
 
-# CPU Time 
+# CPU Time
 HHcpu=$(echo $CPUTIME | cut -d ":" -f1)
 MMcpu=$(echo $CPUTIME | cut -d ":" -f2)
 SScpu=$(echo $CPUTIME | cut -d ":" -f3)
