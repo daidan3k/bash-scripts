@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ $# -ne 1 ]
+then
+	echo "Usage ./cpuAverage.sh <PID>"
+	exit 1
+fi
+
 PID=$1
 DADES=$(ps -p $PID -o cputime=,etime=)
 
