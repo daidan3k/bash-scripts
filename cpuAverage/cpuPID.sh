@@ -27,4 +27,4 @@ SSe=$(($MMe * 60 + $SSe))
 
 # Average
 AVG=$((100 * $SScpu / $SSe))
-echo "Average CPU Usage of PID $PID in the last $ETIME is $AVG%"
+echo "$AVG"
