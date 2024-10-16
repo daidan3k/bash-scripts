@@ -15,7 +15,7 @@ declare -A AVERAGES
 echo Calculating average CPU consumption of every process...
 for PID in "${PIDS[@]}"
 do
-	if [ $PID -ne $$ ]
+	if [ $PID -ne $$ ] && ps -p $PID > /dev/null
 	then
 		AVERAGES[$PID]="$($DIR/cpuPID.sh $PID)"
 	fi
@@ -23,5 +23,5 @@ done
 
 for PID in "${!AVERAGES[@]}"
 do
-	echo $PID ' - ' ${AVERAGES["$PID"]}
+	echo $PID '	 |	 ' ${AVERAGES["$PID"]} '%'
 done | sort -rn -k3
