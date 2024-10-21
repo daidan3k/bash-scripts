@@ -1,5 +1,5 @@
 # Crear domini i clients AWS via scripts
-## Instalar WS22
+## Instalar i configurar WS22
 ```
 aws ec2 run-instances \
 --image-id "ami-05f283f34603d6aed" \
@@ -27,4 +27,17 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 
 # Afegir usuari administrador al grup de "Remote Management"
 Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
+```
+A continuació desde un Linux, generar un parell de claus SSH
+```
+ssh-keygen -t rsa -b 2048 -C "dfernandez050@boscdelacoma.cat"
+```
+Copiar la clau publica (~/.ssh/id_rsa.pub) al WS22
+```
+# Crear carpeta .ssh
+mkdir C:/Users/Administrator/.ssh
+cd C:/Users/Administrator/.ssh
+
+# Crear authorized_keys i enganxar el contingut de "id_rsa.pub"
+notepad authorized_keys
 ```
