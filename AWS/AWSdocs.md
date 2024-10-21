@@ -27,17 +27,29 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 
 # Afegir usuari administrador al grup de "Remote Management"
 Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
-```
-A continuació desde un Linux, generar un parell de claus SSH
-```
-ssh-keygen -t rsa -b 2048 -C "dfernandez050@boscdelacoma.cat"
-```
-Copiar la clau publica (~/.ssh/id_rsa.pub) al WS22
-```
-# Crear carpeta .ssh
-mkdir C:/Users/Administrator/.ssh
-cd C:/Users/Administrator/.ssh
 
-# Crear authorized_keys i enganxar el contingut de "id_rsa.pub"
-notepad authorized_keys
+# Crear la carpeta per guardar les claus SSH
+New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
+```
+A continuació desde un Linux, generar un parell de claus SSH i enviarles al servidor
+```
+ssh-keygen -t rsa -b 2048
+```
+Modificar els permisos de ".ssh" i "authorized_keys"
+```
+Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "<Your_Public_Key_Content>"
+# "`" Es posa ja que sino dona parse error
+icacls $env:USERPROFILE\.ssh /inheritance:r
+icacls $env:USERPROFILE\.ssh /grant "$($env:USERNAME):(OI)(CI)F"
+icacls $env:USERPROFILE\.ssh\authorized_keys /grant "$($env:USERNAME):F"
+```
+Modificar/descomentar les seguents linies de "C:\ProgramData\ssh\sshd_config"
+```
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+
+# Eliminar
+Match Group administrators
+       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys
 ```
