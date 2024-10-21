@@ -11,4 +11,20 @@ aws ec2 run-instances \
 --private-dns-name-options '{"HostnameType":"ip-name","EnableResourceNameDnsARecord":true,"EnableResourceNameDnsAAAARecord":false}' \
 --count "1" 
 ```
+Un cop creat el servidor entrar via RDP i instalar SSH
+```
+# Instalar SSH
+Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 
+# Iniciar SSH
+Start-Service sshd
+
+# Activar SSH automaticament al iniciar el servidor
+Set-Service -Name sshd -StartupType 'Automatic'
+
+# Permetre conexions SSH d'entrada al firewall
+New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+
+# Afegir usuari administrador al grup de "Remote Management"
+Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
+```
