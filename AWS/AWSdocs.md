@@ -50,5 +50,8 @@ Modificar/descomentar les seguents linies de "C:\ProgramData\ssh\sshd_config"
 ```
 PubkeyAuthentication yes
 PasswordAuthentication no
+
+# Reiniciar SSH
+Restart-Service sshd
 ```
 # Configurar domini/forest
