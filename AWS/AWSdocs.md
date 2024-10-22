@@ -34,10 +34,13 @@ New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
 A continuació desde un Linux, generar un parell de claus SSH i enviarles al servidor
 ```
 ssh-keygen -t rsa -b 2048
+cd ~/.ssh
+ssh-add id_rsa
 ```
 Modificar els permisos de ".ssh" i "authorized_keys"
 ```
-Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "<Your_Public_Key_Content>"
+Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "<clau_publica>"
+Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "<clau_publica>"
 # "`" Es posa ja que sino dona parse error
 icacls $env:USERPROFILE\.ssh /inheritance:r
 icacls $env:USERPROFILE\.ssh /grant "$($env:USERNAME):(OI)(CI)F"
@@ -48,8 +51,4 @@ Modificar/descomentar les seguents linies de "C:\ProgramData\ssh\sshd_config"
 PubkeyAuthentication yes
 AuthorizedKeysFile .ssh/authorized_keys
 PasswordAuthentication no
-
-# Eliminar
-Match Group administrators
-       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_keys
 ```
