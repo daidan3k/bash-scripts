@@ -65,3 +65,26 @@ Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 Install-ADDSForest -DomainName "daidan.local" -DomainNetBiosName "WindowsServer22" -ForestMode "7" -DomainMode "7" -InstallDns -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText "Patata123." -Force) -Force
 ```
 # Crear clients Debian i afegir-los al domini
+```bash
+aws ec2 run-instances \
+--image-id "ami-064519b8c76274859" \
+--instance-type "t2.micro" \
+--key-name "AWS" \
+--block-device-mappings '{"DeviceName":"/dev/xvda","Ebs":{"Encrypted":false,"DeleteOnTermination":true,"Iops":3000,"SnapshotId":"snap-0e3a4e2ca23a73496","VolumeSize":50,"VolumeType":"gp3","Throughput":125}}' \
+--network-interfaces '{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-0a42f2a3cda179b53"]}' \
+--credit-specification '{"CpuCredits":"standard"}' --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Debian12"}]}' \
+--private-dns-name-options '{"HostnameType":"ip-name","EnableResourceNameDnsARecord":true,"EnableResourceNameDnsAAAARecord":false}' \
+--count "1"
+```
+Executar les seguents comandes per entrar-lo al domini
+```bash
+sudo apt update
+sudo apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin samba-libs packagekit -y
+
+# Preconfigurar kerberos perque no sigui interactiu
+echo "krb5-config krb5/realm string daidan.local" | sudo debconf-set-selections
+echo "krb5-config krb5/kerberos_servers string kerberos.daidan.local" | sudo debconf-set-selections
+sudo apt install -y krb5-user
+
+echo "nameserver <WS22 IP>" | sudo tee /etc/resolv.conf
+```
