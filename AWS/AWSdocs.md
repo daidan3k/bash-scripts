@@ -1,5 +1,5 @@
 # Crear domini i clients AWS via scripts
-## Instalar i configurar WS22
+## Instalar WS22 i configurar SSH
 ```powershell
 aws ec2 run-instances \
 --image-id "ami-05f283f34603d6aed" \
@@ -51,3 +51,4 @@ Modificar/descomentar les seguents linies de "C:\ProgramData\ssh\sshd_config"
 PubkeyAuthentication yes
 PasswordAuthentication no
 ```
+# Configurar domini/forest
