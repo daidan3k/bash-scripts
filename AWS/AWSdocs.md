@@ -1,6 +1,6 @@
 # Crear domini i clients AWS via scripts
 ## Instalar WS22 i configurar SSH
-```powershell
+```bash
 aws ec2 run-instances \
 --image-id "ami-05f283f34603d6aed" \
 --instance-type "t2.micro" \
@@ -61,6 +61,7 @@ Rename-Computer -NewName "WS22" -Restart #Cuidado amb el "-Restart" al fer l'scr
 # Instalar AD
 Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 
-# Elevar servidor a Controlador de Domini (Es reinicia, trobar manera que no es rinicii)
+# Elevar servidor a Controlador de Domini (Es reinicia, trobar manera que no es reinicii/evaluar si es problematic)
 Install-ADDSForest -DomainName "daidan.local" -DomainNetBiosName "WindowsServer22" -ForestMode "7" -DomainMode "7" -InstallDns -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText "Patata123." -Force) -Force
 ```
+# Crear clients Debian i afegir-los al domini
