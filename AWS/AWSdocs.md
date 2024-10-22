@@ -1,6 +1,6 @@
 # Crear domini i clients AWS via scripts
 ## Instalar i configurar WS22
-```
+```powershell
 aws ec2 run-instances \
 --image-id "ami-05f283f34603d6aed" \
 --instance-type "t2.micro" \
@@ -12,7 +12,7 @@ aws ec2 run-instances \
 --count "1" 
 ```
 Un cop creat el servidor entrar via RDP i instalar SSH
-```
+```powershell
 # Instalar SSH
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
 
@@ -32,13 +32,13 @@ Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
 New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
 ```
 A continuació desde un Linux, generar un parell de claus SSH i enviarles al servidor
-```
+```bash
 ssh-keygen -t rsa -b 2048
 cd ~/.ssh
 ssh-add id_rsa
 ```
 Modificar els permisos de ".ssh" i "authorized_keys"
-```
+```powershell
 Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "<clau_publica>"
 Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "<clau_publica>"
 # "`" Es posa ja que sino dona parse error
