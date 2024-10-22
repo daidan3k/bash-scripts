@@ -27,7 +27,6 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 
 # Afegir usuari administrador al grup de "Remote Management"
 Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
-
 # Crear la carpeta per guardar les claus SSH
 New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
 ```
@@ -55,3 +54,13 @@ PasswordAuthentication no
 Restart-Service sshd
 ```
 # Configurar domini/forest
+```powershell
+# Canviar hostname
+Rename-Computer -NewName "WS22" -Restart #Cuidado amb el "-Restart" al fer l'script
+
+# Instalar AD
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+# Elevar servidor a Controlador de Domini (Es reinicia, trobar manera que no es rinicii)
+Install-ADDSForest -DomainName "daidan.local" -DomainNetBiosName "WindowsServer22" -ForestMode "7" -DomainMode "7" -InstallDns -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText "Patata123." -Force) -Force
+```
