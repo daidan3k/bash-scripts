@@ -49,6 +49,5 @@ icacls $env:USERPROFILE\.ssh\authorized_keys /grant "$($env:USERNAME):F"
 Modificar/descomentar les seguents linies de "C:\ProgramData\ssh\sshd_config"
 ```
 PubkeyAuthentication yes
-AuthorizedKeysFile .ssh/authorized_keys
 PasswordAuthentication no
 ```
