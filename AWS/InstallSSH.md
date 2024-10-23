@@ -34,6 +34,9 @@ Add-Content -Path "C:\ProgramData\ssh\sshd_config" -Value "ForceCommand powershe
 # Reiniciar SSH
 Restart-Service sshd
 
+# Modificar contrasenya Administrator
+Set-LocalUser -Name "Administrator" -Password (ConvertTo-SecureString "Patata123." -AsPlainText -Force)
+
 # Canviar hostname i reiniciar servidor
 Rename-Computer -NewName "WS22" -Restart
 ```
