@@ -27,6 +27,7 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 
 # Afegir usuari administrador al grup de "Remote Management"
 Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
+
 # Crear la carpeta per guardar les claus SSH
 New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
 ```
