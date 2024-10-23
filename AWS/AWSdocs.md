@@ -5,7 +5,7 @@ aws ec2 run-instances \
 --image-id "ami-05f283f34603d6aed" \
 --instance-type "t2.micro" \
 --key-name "AWS" \
---network-interfaces '{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-0a42f2a3cda179b53"]}' \
+--network-interfaces '{"SubnetId":"subnet-07a60e4be91dcc4eb", "AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-0a42f2a3cda179b53"]}' \
 --credit-specification '{"CpuCredits":"standard"}' \
 --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"WS22"}]}' \
 --private-dns-name-options '{"HostnameType":"ip-name","EnableResourceNameDnsARecord":true,"EnableResourceNameDnsAAAARecord":false}' \
@@ -53,17 +53,18 @@ PasswordAuthentication no
 
 # Reiniciar SSH
 Restart-Service sshd
+
+# Canviar hostname i reiniciar servidor
+Rename-Computer -NewName "WS22" -Restart
 ```
 # Configurar domini/forest
 ```powershell
-# Canviar hostname
-Rename-Computer -NewName "WS22" -Restart #Cuidado amb el "-Restart" al fer l'script
-
 # Instalar AD
-Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Import-Module ADDSDeployment
 
 # Elevar servidor a Controlador de Domini (Es reinicia, trobar manera que no es reinicii/evaluar si es problematic)
-Install-ADDSForest -DomainName "daidan.local" -DomainNetBiosName "WindowsServer22" -ForestMode "7" -DomainMode "7" -InstallDns -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText "Patata123." -Force) -Force
+Install-ADDSForest -DomainName "daidan.local" -DomainNetbiosName "WindowsServer22" -SafeModeAdministratorPassword (ConvertTo-SecureString -AsPlainText "Patata123." -Force) -InstallDns -Force
 ```
 # Crear clients Debian i afegir-los al domini
 ```bash
@@ -72,20 +73,12 @@ aws ec2 run-instances \
 --instance-type "t2.micro" \
 --key-name "AWS" \
 --block-device-mappings '{"DeviceName":"/dev/xvda","Ebs":{"Encrypted":false,"DeleteOnTermination":true,"Iops":3000,"SnapshotId":"snap-0e3a4e2ca23a73496","VolumeSize":50,"VolumeType":"gp3","Throughput":125}}' \
---network-interfaces '{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-0a42f2a3cda179b53"]}' \
+--network-interfaces '{"SubnetId":"subnet-07a60e4be91dcc4eb", "AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["sg-0a42f2a3cda179b53"]}' \
 --credit-specification '{"CpuCredits":"standard"}' --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Debian12"}]}' \
 --private-dns-name-options '{"HostnameType":"ip-name","EnableResourceNameDnsARecord":true,"EnableResourceNameDnsAAAARecord":false}' \
 --count "1"
 ```
 Executar les seguents comandes per entrar-lo al domini
 ```bash
-sudo apt update
-sudo apt install realmd sssd sssd-tools libnss-sss libpam-sss adcli samba-common-bin samba-libs packagekit -y
 
-# Preconfigurar kerberos perque no sigui interactiu
-echo "krb5-config krb5/realm string daidan.local" | sudo debconf-set-selections
-echo "krb5-config krb5/kerberos_servers string kerberos.daidan.local" | sudo debconf-set-selections
-sudo apt install -y krb5-user
-
-echo "nameserver <WS22 IP>" | sudo tee /etc/resolv.conf
 ```
