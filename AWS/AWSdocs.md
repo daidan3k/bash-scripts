@@ -80,5 +80,38 @@ aws ec2 run-instances \
 ```
 Executar les seguents comandes per entrar-lo al domini
 ```bash
+# Actualitzar i instalar repositoris nescesaris
+sudo apt update
+sudo apt install realmd sssd samba-common-bin adcli -y
 
+# Afegir ruta del DNS/WindowsServer
+echo "nameserver <IPServer>" | sudo tee /etc/resolv.conf
+
+# Entrar al domini
+echo "Patata123." | sudo realm join --user="Administrator" "daidan.local" --install=/ -v
+
+#####
+No entra:
+
+admin@ip-172-31-28-95:~$ echo "Patata123." | sudo realm join --user="Administrator" "daidan.local" --install=/ -v
+ * Resolving: _ldap._tcp.daidan.local
+ * Performing LDAP DSE lookup on: 172.31.24.165
+ * Successfully discovered: daidan.local
+Password for Administrator: 
+ * Assuming packages are installed
+ * LANG=C /usr/sbin/adcli join --verbose --domain daidan.local --domain-realm DAIDAN.LOCAL --domain-controller 172.31.24.165 --login-type user --login-user Administrator --stdin-password
+ * Using domain name: daidan.local
+ * Calculated computer account name from fqdn: IP-172-31-28-95
+ * Using domain realm: daidan.local
+ * Sending NetLogon ping to domain controller: 172.31.24.165
+ * Received NetLogon info from: WS22.daidan.local
+ * Wrote out krb5.conf snippet to /var/cache/realmd/adcli-krb5-NV4LL8/krb5.d/adcli-krb5-conf-HtLfi7
+ * Authenticated as user: Administrator@DAIDAN.LOCAL
+ * Using GSS-SPNEGO for SASL bind
+ ! Couldn't authenticate to active directory: SASL(-1): generic failure: GSSAPI Error: Unspecified GSS failure.  Minor code may provide more information (Server not found in Kerberos database)
+adcli: couldn't connect to daidan.local domain: Couldn't authenticate to active directory: SASL(-1): generic failure: GSSAPI Error: Unspecified GSS failure.  Minor code may provide more information (Server not found in Kerberos database)
+ ! Insufficient permissions to join the domain
+realm: Couldn't join realm: Insufficient permissions to join the domain
+
+#####
 ```
