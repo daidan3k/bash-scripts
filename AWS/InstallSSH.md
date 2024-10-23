@@ -29,6 +29,7 @@ icacls $env:USERPROFILE\.ssh\authorized_keys /grant "$($env:USERNAME):F"
 # Modificar configuració del servei SSH
 Add-Content -Path "C:\ProgramData\ssh\sshd_config" -Value "PubkeyAuthentication yes"
 Add-Content -Path "C:\ProgramData\ssh\sshd_config" -Value "PasswordAuthentication no"
+Add-Content -Path "C:\ProgramData\ssh\sshd_config" -Value "ForceCommand powershell.exe"
 
 # Reiniciar SSH
 Restart-Service sshd
