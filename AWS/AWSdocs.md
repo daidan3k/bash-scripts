@@ -38,8 +38,8 @@ ssh-add id_rsa
 ```
 Modificar els permisos de ".ssh" i "authorized_keys"
 ```powershell
-Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "<clau_publica>"
-Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "<clau_publica>"
+Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaRgXjwDrJMdzu3h7ree3zYBJw3WBbLo+dUYpoQRmRFSLNb/RAO/SyAsI9besXtXqmh/cHnELOAkmLAENbLcUgGENOLqOORQDTaTQXsAsGVdRrdScc6fZZ6PZa1lgDL8mXNUocLIUmYYHO/xIrndow3vUKhumoL8cwsZqNHMGSG75v6E70TZXsWIHDPaGTo/me7bYxLfgOZiMWfybvyfb9M+3M4WGlLgXop9CJp1oZgW9LyCaYXGvJLGPrsVHMyqTzRKGb67tskUdvrhJ5fWQFKHWgPg1KSGzTpT9zmWOzdU42SY+5pJ6dM77MYB241i/OBa1L5B4fz6cYvKprBv6T daidan@debian"
+Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaRgXjwDrJMdzu3h7ree3zYBJw3WBbLo+dUYpoQRmRFSLNb/RAO/SyAsI9besXtXqmh/cHnELOAkmLAENbLcUgGENOLqOORQDTaTQXsAsGVdRrdScc6fZZ6PZa1lgDL8mXNUocLIUmYYHO/xIrndow3vUKhumoL8cwsZqNHMGSG75v6E70TZXsWIHDPaGTo/me7bYxLfgOZiMWfybvyfb9M+3M4WGlLgXop9CJp1oZgW9LyCaYXGvJLGPrsVHMyqTzRKGb67tskUdvrhJ5fWQFKHWgPg1KSGzTpT9zmWOzdU42SY+5pJ6dM77MYB241i/OBa1L5B4fz6cYvKprBv6T daidan@debian>"
 # "`" Es posa ja que sino dona parse error
 icacls $env:USERPROFILE\.ssh /inheritance:r
 icacls $env:USERPROFILE\.ssh /grant "$($env:USERNAME):(OI)(CI)F"
