@@ -33,4 +33,7 @@ Add-Content -Path "C:\ProgramData\ssh\sshd_config" -Value "ForceCommand powershe
 
 # Reiniciar SSH
 Restart-Service sshd
+
+# Canviar hostname i reiniciar servidor
+Rename-Computer -NewName "WS22" -Restart #Cuidado amb el "-Restart"
 ```
