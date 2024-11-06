@@ -54,8 +54,12 @@ do
 	shift
 done
 
+# Debug
 echo $DOMAIN
 echo $CLIENTS
 for key in "${!USERS_PASS[@]}"; do
     echo "$key -> ${USERS_PASS[$key]}"
 done
+# End debug
+
+SG=$(./createSG.sh)
