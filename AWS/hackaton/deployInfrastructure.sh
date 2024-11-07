@@ -55,11 +55,27 @@ do
 done
 
 # Debug
-echo $DOMAIN
-echo $CLIENTS
+echo "Deploying infrastructure for hackatoon with the following parameters:"
+echo "	Domain name: $DOMAIN"
+echo "	Number of clients: $CLIENTS"
+echo "	Users:"
 for key in "${!USERS_PASS[@]}"; do
-    echo "$key -> ${USERS_PASS[$key]}"
+    echo "	- User: $key Pass: ${USERS_PASS[$key]}"
 done
 # End debug
 
-SG=$(./createSG.sh)
+# Crear SG
+echo "Creating Security Group:"
+SGID=$(./createSG.sh)
+
+# Error general
+if [ $? -eq 2 ]
+then
+	echo "Error while creating Security Group!"
+	exit 2
+fi
+echo $SGID
+
+# Crear WS22
+echo "Creating WS22 instance:"
+./createWS.sh $SGID
