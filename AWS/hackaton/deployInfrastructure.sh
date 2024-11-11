@@ -78,4 +78,16 @@ echo $SGID
 
 # Crear WS22
 echo "Creating WS22 instance:"
-./createWS.sh $SGID
+WSIP=$(./createWS.sh $SGID)
+
+echo "Windows Server Instance Created."
+echo "Connect via RDP to the Windows Server and execute the following script"
+echo ""
+cat ./sshOnWindows.txt
+echo ""
+read -r -p "Press any key when the Windows Server script has finished..." key
+
+echo $WSIP
+
+# Configurar domini al WS
+./setupForest.sh $WSIP $DOMAIN
