@@ -65,7 +65,7 @@ done
 # End debug
 
 # Crear SG
-echo "Creating Security Group:"
+echo "Creating Security Group..."
 SGID=$(./createSG.sh)
 
 # Error general
@@ -74,12 +74,12 @@ then
 	echo "Error while creating Security Group!"
 	exit 2
 fi
-echo $SGID
+echo "Security Group ID: $SGID"
 
 # Crear WS22
-echo "Creating WS22 instance:"
-WSIP=$(./createWS.sh $SGID)
-
+echo "Creating WS22 instance..."
+WSIP=$(./createVM.sh $SGID WS)
+echo "Windows Server IP: $WSIP"
 echo "Windows Server Instance Created."
 echo "Connect via RDP to the Windows Server and execute the following script"
 echo ""
@@ -87,7 +87,13 @@ cat ./sshOnWindows.txt
 echo ""
 read -r -p "Press any key when the Windows Server script has finished..." key
 
-echo $WSIP
+# Crear clients
+echo "Creating $CLIENTS clients..."
+for i in $(seq 1 $CLIENTS)
+do
+	CIP=$(./createVM.sh $SGID Debian)
+	echo "Client $i IP: $CIP"
+done
 
 # Configurar domini al WS
 ./setupForest.sh $WSIP $DOMAIN
