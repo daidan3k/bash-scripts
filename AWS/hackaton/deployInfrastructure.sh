@@ -88,12 +88,25 @@ echo ""
 read -r -p "Press any key when the Windows Server script has finished..." key
 
 # Crear clients
+CLIENTIPS=()
 echo "Creating $CLIENTS clients..."
 for i in $(seq 1 $CLIENTS)
 do
-	CIP=$(./createVM.sh $SGID Debian)
-	echo "Client $i IP: $CIP"
+	IP=$(./createVM.sh $SGID Debian)
+	CLIENTIPS+=("$IP")
+	echo "Client $i: $IP"
 done
+
+for IP in "${CLIENTIPS[@]}"
+do
+	for USER in "${!USERS_PASS[@]}"
+	do
+		echo "$USER" "${USERS_PASS[$USER]}"
+		ssh -q -i ~/.ssh/AWS.pem admin@$IP "sudo bash -s" < ./confClients.sh "$USER" "${USERS_PASS[$USER]}"
+	done
+done
+
+exit
 
 # Configurar domini al WS
 ./setupForest.sh $WSIP $DOMAIN
