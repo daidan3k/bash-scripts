@@ -54,7 +54,22 @@ do
 	shift
 done
 
-# Debug
+# Check AWS connectity
+aws s3 ls
+if [ $? -ne 0 ]
+then
+	echo "Aborting:"
+	echo "'~/.aws/credentials' file is not configured correctly."
+fi
+
+# Check if AWS.pem file exists
+find ~/.ssh/AWS.pem
+if [ $? -ne 0 ]
+then
+	echo "Aborting:"
+	echo "'~/.ssh/AWS.pem' was not found"
+fi
+
 echo "Deploying infrastructure for hackatoon with the following parameters:"
 echo "	Domain name: $DOMAIN"
 echo "	Number of clients: $CLIENTS"
@@ -62,7 +77,6 @@ echo "	Users:"
 for key in "${!USERS_PASS[@]}"; do
     echo "	- User: $key Pass: ${USERS_PASS[$key]}"
 done
-# End debug
 
 # Crear SG
 echo "Creating Security Group..."
@@ -80,12 +94,7 @@ echo "Security Group ID: $SGID"
 echo "Creating WS22 instance..."
 WSIP=$(./createVM.sh $SGID WS)
 echo "Windows Server IP: $WSIP"
-echo "Windows Server Instance Created."
-echo "Connect via RDP to the Windows Server and execute the following script"
-echo ""
-cat ./sshOnWindows.txt
-echo ""
-read -r -p "Press any key when the Windows Server script has finished..." key
+echo "Windows Server Instance Created: $WSIP"
 
 # Crear clients
 CLIENTIPS=()
@@ -107,7 +116,12 @@ do
 	done
 done
 
-exit
+echo "Connect via RDP to the Windows Server and execute the following script"
+echo ""
+IDRSA=$(cat ~/.ssh/id_rsa_AWS_WS.pub)
+cat ./sshOnWindows.txt | sed 's/[id_rsa.pub]/$IDRSA/g'
+echo ""
+read -r -p "Press any key when the Windows Server script has finished..." key
 
 # Configurar domini al WS
 ./setupForest.sh $WSIP $DOMAIN
