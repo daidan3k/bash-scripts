@@ -11,3 +11,5 @@ Un cop executat l'script es creara el grup de seguretat, el WS22, els clients i 
 
 A continuació et demanara que et conectis via RDP i configuris SSH al WS22.\
 Es mostrara un script per pantalla que hauras de copiar i enganxar al WS22, al acabar l'script es reiniciara el servidor, un cop reiniciat prem cualsevol tecla al teu equip.
+
+A continuació es configurara el Directori Actiu al WS22
