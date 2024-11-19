@@ -97,12 +97,13 @@ do
 	echo "Client $i: $IP"
 done
 
+echo "Configuring client users..."
 for IP in "${CLIENTIPS[@]}"
 do
+	echo "Configuring client: $IP"
 	for USER in "${!USERS_PASS[@]}"
 	do
-		echo "$USER" "${USERS_PASS[$USER]}"
-		ssh -q -i ~/.ssh/AWS.pem admin@$IP "sudo bash -s" < ./confClients.sh "$USER" "${USERS_PASS[$USER]}"
+		ssh -o StrictHostKeyChecking=no -i ~/.ssh/AWS.pem admin@$IP "sudo bash -s" < ./confClients.sh "$USER" "${USERS_PASS[$USER]}" > /dev/null
 	done
 done
 
