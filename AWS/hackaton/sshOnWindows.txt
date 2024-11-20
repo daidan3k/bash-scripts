@@ -17,8 +17,8 @@ Add-LocalGroupMember -Group "Remote Management Users" -Member "Administrator"
 New-Item -ItemType Directory -Path $env:USERPROFILE\.ssh -Force
 
 # Crear arxius authorized keys
-Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "[id_rsa.pub]"
-Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "[id_rsa.pub]"
+Set-Content -Path $env:USERPROFILE\.ssh\authorized_keys -Value "id_rsa.pub"
+Set-Content -Path C:/ProgramData/ssh/administrators_authorized_keys -Value "id_rsa.pub"
 
 # Modificar permisos d'arxius i carpetes
 icacls $env:USERPROFILE\.ssh /inheritance:r

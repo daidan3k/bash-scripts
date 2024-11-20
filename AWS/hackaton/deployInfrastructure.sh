@@ -55,23 +55,27 @@ do
 done
 
 # Check AWS connectity
-aws s3 ls
+aws s3 ls >/dev/null 2>&1
 if [ $? -ne 0 ]
 then
 	echo "Aborting:"
 	echo "'~/.aws/credentials' file is not configured correctly."
+	exit 1
 fi
 
 # Check if AWS.pem file exists
-find ~/.ssh/AWS.pem
+find ~/.ssh/AWS.pem >/dev/null 2>&1
 if [ $? -ne 0 ]
 then
 	echo "Aborting:"
 	echo "'~/.ssh/AWS.pem' was not found"
+	exit 1
 fi
 
 echo "Deploying infrastructure for hackatoon with the following parameters:"
 echo "	Domain name: $DOMAIN"
+
+
 echo "	Number of clients: $CLIENTS"
 echo "	Users:"
 for key in "${!USERS_PASS[@]}"; do
@@ -112,14 +116,17 @@ do
 	echo "Configuring client: $IP"
 	for USER in "${!USERS_PASS[@]}"
 	do
-		ssh -o StrictHostKeyChecking=no -i ~/.ssh/AWS.pem admin@$IP "sudo bash -s" < ./confClients.sh "$USER" "${USERS_PASS[$USER]}" > /dev/null
+		ssh -o StrictHostKeyChecking=no -i ~/.ssh/AWS.pem admin@$IP "sudo bash -s" < ./confClients.sh "$USER" "${USERS_PASS[$USER]}" >/dev/null 2>&1
 	done
 done
 
+# Configurar SSH a WS22
 echo "Connect via RDP to the Windows Server and execute the following script"
 echo ""
+./createSSHKeys.sh
 IDRSA=$(cat ~/.ssh/id_rsa_AWS_WS.pub)
-cat ./sshOnWindows.txt | sed 's/[id_rsa.pub]/$IDRSA/g'
+
+cat ./sshOnWindows.txt | sed "|id_rsa.pub|$IDRSA|g"
 echo ""
 read -r -p "Press any key when the Windows Server script has finished..." key
 
