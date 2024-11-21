@@ -18,6 +18,7 @@ esac
 
 ID=$(echo $(aws ec2 run-instances \
 --image-id "$AMI" \
+--key-name "vockey" \
 --instance-type "t2.micro" \
 --network-interfaces '{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["'"$1"'"]}' \
 --credit-specification '{"CpuCredits":"standard"}' \
