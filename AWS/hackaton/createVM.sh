@@ -19,7 +19,6 @@ esac
 ID=$(echo $(aws ec2 run-instances \
 --image-id "$AMI" \
 --instance-type "t2.micro" \
---key-name "AWS" \
 --network-interfaces '{"AssociatePublicIpAddress":true,"DeviceIndex":0,"Groups":["'"$1"'"]}' \
 --credit-specification '{"CpuCredits":"standard"}' \
 --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"'"$TYPE"'"}]}' \
