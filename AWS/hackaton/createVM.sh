@@ -38,7 +38,7 @@ then
         	sleep 10
 	done
 
-	aws ec2 associate-address --instance-id $ID --allocation-id $(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text)
+	aws ec2 associate-address --instance-id $ID --allocation-id $(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text) > /dev/null 2>&1
 fi
 
 echo $(aws ec2 describe-instances --instance-ids $ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text | cut -d " " -f 5)

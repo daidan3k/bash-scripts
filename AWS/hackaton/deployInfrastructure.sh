@@ -97,7 +97,6 @@ echo "Security Group ID: $SGID"
 # Crear WS22
 echo "Creating WS22 instance..."
 WSIP=$(./createVM.sh $SGID WS)
-echo "Windows Server IP: $WSIP"
 echo "Windows Server Instance Created: $WSIP"
 
 # Crear clients
@@ -126,9 +125,9 @@ echo ""
 ./createSSHKeys.sh
 IDRSA=$(cat ~/.ssh/id_rsa_AWS_WS.pub)
 
-cat ./sshOnWindows.txt | sed "|id_rsa.pub|$IDRSA|g"
+cat ./sshOnWindows.txt | sed "s|id_rsa.pub|$IDRSA|g"
 echo ""
-read -r -p "Press any key when the Windows Server script has finished..." key
+read -r -p "Press any key when the Windows Server script has finished and the Server finishes rebooting..." key
 
 # Configurar domini al WS
 ./setupForest.sh $WSIP $DOMAIN
