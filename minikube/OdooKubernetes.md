@@ -75,7 +75,7 @@ spec:
 nano postgres-service.yaml
 ```
 ```yaml
-apiVersion: apps/v1
+apiVersion: v1
 kind: Service
 metadata:
   name: odoo-db-service
