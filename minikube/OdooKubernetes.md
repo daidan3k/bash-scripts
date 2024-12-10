@@ -94,3 +94,61 @@ A continuació aplicarem el deployment i el servei
 kubectl apply -f postgres-deployment.yaml
 kubectl apply -f postgres-service.yaml
 ```
+
+Ara crearem els arxius deployment i service del odoo
+```bash
+nano odoo-deployment.yaml
+```
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: odoo
+  namespace: odoo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: odoo
+  template:
+    metadata:
+      labels:
+        app: odoo
+    spec:
+      containers:
+      - name: odoo
+        image: odoo:latest
+      - name: POSTGRES_PORT
+        value: "5432"
+      - name: POSTGRES_DB
+        value: odoo
+      - name: POSTGRES_USER
+        value: asix
+      - name: POSTGRES_PASSWORD
+        value: patata
+      ports:
+      - containerPort: 8069
+```
+```bash
+nano odoo-service.yaml
+```
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: odoo-service
+  namespace: odoo
+spec:
+  selector:
+    app: odoo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8069
+  type: LoadBalancer
+```
+A continuació aplicarem la configuració
+```bash
+kubectl apply -f odoo-deployment.yaml
+kubectl apply -f odoo-service.yaml
+```
