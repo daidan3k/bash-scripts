@@ -24,3 +24,8 @@ Tambe hem modificat les seguents linies al arxiu `/etc/ssh/sshd_conf`
 PasswordAuthentication no
 PubkeyAuthentication yes
 ```
+
+## Configuració de xarxa
+Mapa logic de la xarxa
+![image](https://github.com/user-attachments/assets/28d71798-c5de-4433-bf90-cb708a49570a)\
+
