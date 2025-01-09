@@ -26,7 +26,7 @@ PubkeyAuthentication yes
 ```
 
 ## Configuració de xarxa
-Mapa logic de la xarxa
+Mapa logic de la xarxa\
 ![image](https://github.com/user-attachments/assets/b023f1ad-d816-4489-81e8-406b44a11bd7)
 
 
