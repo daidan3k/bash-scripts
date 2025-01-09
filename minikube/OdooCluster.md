@@ -29,6 +29,10 @@ PubkeyAuthentication yes
 Mapa logic de la xarxa\
 ![image](https://github.com/user-attachments/assets/b023f1ad-d816-4489-81e8-406b44a11bd7)
 
+| Equip | Port | Nose |
+|----------|----------|----------|
+| Row 1    | Data A   | Data B   |
+| Row 2    | Data C   | Data D   |
 
 Primerament hem formatejat el switch.\
 L'engeguem en mode ROMMON, aguantant el boto "mode" fins que la llum de system es posa taronja. A continuació ens conectem al switch mitjançant un cable de consola i executem les seguents comandes.
