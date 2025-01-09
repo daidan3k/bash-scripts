@@ -29,3 +29,10 @@ PubkeyAuthentication yes
 Mapa logic de la xarxa
 ![image](https://github.com/user-attachments/assets/28d71798-c5de-4433-bf90-cb708a49570a)\
 
+Primerament hem formatejat el switch.\
+L'engeguem en mode ROMMON, aguantant el boto "mode" fins que la llum de system es posa taronja. A continuació ens conectem al switch mitjançant un cable de consola i executem les seguents comandes.
+```
+flash_init
+del flash:config.text
+boot
+```
