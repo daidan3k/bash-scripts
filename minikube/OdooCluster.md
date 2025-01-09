@@ -37,7 +37,7 @@ flash_init
 del flash:config.text
 boot
 ```
-Ports del switch.
+Ports del switch.\
 ![image](https://github.com/user-attachments/assets/1718e2aa-2cf2-42c4-b451-2d0f54e9d919)
 
 A continuació configurarem el switch perque desde internet nomes es pugui accedir al Master. De moment desde dintre tots els dispositius tenen acces a internet per poder configurar el cluster amb facilitat, pero en el futur bloquejarem l'accès a internet per els workers.\
