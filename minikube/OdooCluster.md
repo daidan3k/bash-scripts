@@ -29,11 +29,6 @@ PubkeyAuthentication yes
 Mapa logic de la xarxa\
 ![image](https://github.com/user-attachments/assets/b023f1ad-d816-4489-81e8-406b44a11bd7)
 
-| Equip | Port | Nose |
-|----------|----------|----------|
-| Row 1    | Data A   | Data B   |
-| Row 2    | Data C   | Data D   |
-
 Primerament hem formatejat el switch.\
 L'engeguem en mode ROMMON, aguantant el boto "mode" fins que la llum de system es posa taronja. A continuació ens conectem al switch mitjançant un cable de consola i executem les seguents comandes.
 ```
@@ -41,8 +36,17 @@ flash_init
 del flash:config.text
 boot
 ```
-Ports del switch.\
-![image](https://github.com/user-attachments/assets/1718e2aa-2cf2-42c4-b451-2d0f54e9d919)
+Ports del switch.
+| Port | Equip |
+|----------|--------------|
+| Fa0/1    | Master 01    |
+| Fa0/2    | Worker 01    | 
+| Fa0/3    | Worker 02    |
+| Fa0/4    | Master 01    |
+| Fa0/5    | Worker 01    |
+| Fa0/6    | Worker 02    |
+| Fa0/21   | Access Point |
+| Fa0/23   | Router       |
 
 A continuació configurarem el switch perque desde internet nomes es pugui accedir al Master. De moment desde dintre tots els dispositius tenen acces a internet per poder configurar el cluster amb facilitat, pero en el futur bloquejarem l'accès a internet per els workers.\
 Per conectar-se al cluster localment els clients es conectaran al AP i per conectar-se desde fora es conectaran via el router.
