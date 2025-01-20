@@ -39,12 +39,12 @@ boot
 Ports del switch.
 | Port | Equip |
 |----------|--------------|
-| Fa0/1    | Master 01    |
-| Fa0/2    | Worker 01    | 
-| Fa0/3    | Worker 02    |
-| Fa0/4    | Master 01    |
-| Fa0/5    | Worker 01    |
-| Fa0/6    | Worker 02    |
+| Fa0/1    | Master 01 [GrupA]   |
+| Fa0/2    | Worker 01 [GrupA]   | 
+| Fa0/3    | Worker 02 [GrupA]   |
+| Fa0/4    | Master 01 [GrupB]   |
+| Fa0/5    | Worker 01 [GrupB]   |
+| Fa0/6    | Worker 02 [GrupB]   |
 | Fa0/21   | Access Point |
 | Fa0/23   | Router       |
 
