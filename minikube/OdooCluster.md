@@ -58,8 +58,17 @@ Per conectar-se al cluster localment els clients es conectaran al AP i per conec
 ## Configuració del cluster
 Primerament instalarem kubernetes i les tools. Afegint la clau de signatura i el repositori de kubernetes i despres instalem amb apt.
 ```bash
+# Instalar dependencies
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+
+# Descarregar la clau de firma
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+# Afegir repositori de kubernetes
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Instalar kubernetes i les tools
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 ```
