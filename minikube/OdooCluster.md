@@ -56,7 +56,8 @@ A continuació configurarem el switch perque desde internet nomes es pugui acced
 Per conectar-se al cluster localment els clients es conectaran al AP i per conectar-se desde fora es conectaran via el router.
 
 ## Configuració del cluster
-Primerament instalarem kubernetes i les tools. Afegint la clau de signatura i el repositori de kubernetes i despres instalem amb apt.
+# Instalar kubernetes i tools
+Primerament instalarem kubernetes i les tools. Afegint la clau de signatura i el repositori de kubernetes i despres l'instalem amb apt.
 ```bash
 # Instalar dependencies
 sudo apt-get update
@@ -72,3 +73,69 @@ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo apt update
 sudo apt install -y kubelet kubeadm kubectl
 ```
+
+# Configuració hostnames
+Seguirem establint hostnames per els equips.
+```bash
+# master01A
+sudo hostnamectl set-hostname "master01A.asix.local"
+# worker01A
+sudo hostnamectl set-hostname "worker01A.asix.local"
+# worker02A
+sudo hostnamectl set-hostname "worker02A.asix.local"
+```
+I afegirem les seguents linies a `/etc/hosts` a tots els nodes.
+```bash
+192.168.0.10    master01A.asix.local    master01A
+192.168.0.11    worker01A.asix.local    worker01A
+192.168.0.12    worker02A.asix.local    worker02A
+```
+
+# Instalar containerd
+A continuació instalarem `containerd`. Primerament executarem les seguents comandes, que carregen moduls del kernel i configuren uns parametres perque `containerd` funcioni correctament.
+```bash
+# Configurar kernel per funcionar amb containerd
+cat <<EOF | sudo tee /etc/modules-load.d/containerd.conf 
+overlay 
+br_netfilter
+EOF
+sudo modprobe overlay 
+sudo modprobe br_netfilter
+cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-k8s.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1 
+net.bridge.bridge-nf-call-ip6tables = 1 
+EOF
+sudo sysctl --system
+
+# Instalar containerd
+sudo apt -y install containerd
+
+# Configurar containerd perque funcioni amb kubernetes
+containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+```
+Seguirem modificant l'arxiu `/etc/containerd/config.toml` per modificar SystemdCgroup de false a true. Aixo fara que containerd utilitzi systemd con a manager de cgroup. Aquesta modificació la farem als 3 nodes.
+![image](https://github.com/user-attachments/assets/bfb6e4c2-f06d-4f86-b98a-7b38ce6c5cf2)
+
+Per ultim reiniciem i activem containerd.
+```bash
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+```
+
+# Inicialització del cluster
+Crearem un arxiu `kubelet.yaml` amb la configuració del cluster.
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+kubernetesVersion: "1.32.0"
+controlPlaneEndpoint: "master01A"
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+```
+
+
