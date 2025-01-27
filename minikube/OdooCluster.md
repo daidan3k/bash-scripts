@@ -132,7 +132,7 @@ kind: InitConfiguration
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
 kubernetesVersion: "1.32.0"
-controlPlaneEndpoint: "master01A"
+controlPlaneEndpoint: "master01a"
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
