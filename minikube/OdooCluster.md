@@ -18,7 +18,7 @@ Tambe s'haura d'afegir el DNS a `/etc/resolv.conf`
 nameserver 172.23.0.13
 ```
 
-Per ultim hem configurat SSH, creant claus SSH amb l'algoritme `ed25519` per tenir millor seguretat\
+Per ultim hem configurat SSH, creant claus SSH amb l'algoritme `ed25519` per tenir millor seguretat
 ```bash
 ssh-keygen -t ed25519
 ```
