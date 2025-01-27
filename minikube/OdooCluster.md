@@ -9,9 +9,9 @@ Les particions dels servidors son les seguents:
 Es important eliminar la particio de swap ja que kubeadm demana no tenir swap per funcionar correctament
 
 A continuació hem configurat les IPs estatiques als servidors (Utilitzant les proporcionades a SXI)
-- master: `enp3s0 - 172.23.8.10 `
-- worker1: `ens1f0 - 172.23.8.20`
-- worker2: `ens1f0 172.23.8.30`
+- master01A: `enp3s0 - 192.168.0.10`
+- worker01A: `enp4s3 - 192.168.0.11`
+- worker02A: `enp2s4 - 192.168.0.12`
 
 Tambe s'haura d'afegir el DNS a `/etc/resolv.conf`
 ```bash
@@ -19,6 +19,9 @@ nameserver 172.23.0.13
 ```
 
 Per ultim hem configurat SSH, creant claus SSH amb l'algoritme `ed25519` per tenir millor seguretat\
+```bash
+ssh-keygen -t ed25519
+```
 Tambe hem modificat les seguents linies al arxiu `/etc/ssh/sshd_conf`
 ```bash
 PasswordAuthentication no
