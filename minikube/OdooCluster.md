@@ -30,7 +30,8 @@ PubkeyAuthentication yes
 
 ## Configuració de xarxa
 Mapa logic de la xarxa\
-![image](https://github.com/user-attachments/assets/b023f1ad-d816-4489-81e8-406b44a11bd7)
+![image](https://github.com/user-attachments/assets/89b62609-eace-4fdc-9337-a375e91e6623)
+
 
 Primerament hem formatejat el switch.\
 L'engeguem en mode ROMMON, aguantant el boto "mode" fins que la llum de system es posa taronja. A continuació ens conectem al switch mitjançant un cable de consola i executem les seguents comandes.
