@@ -137,5 +137,28 @@ controlPlaneEndpoint: "master01a"
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 ```
+Mourem l'arxiu de configuració a la ubicació predeterminada de kubernetes
+```bash
+mv kubelet.yaml .kube/config
+```
 
 
+
+# Reiniciar cluster
+Crear configuració del cluster
+```bash
+sudo kubeadm init phase kubeconfig admin
+mkdir -p $HOME/.kube
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+Eliminar arxius anteriors
+```bash
+sudo rm -rf /etc/kubernetes/manifests/
+sudo rm -rf /var/lib/etcd/
+```
+Buscar i elimar procesos utilitzant ports nescesaris
+```bash
+sudo lsof -i -P -n | grep -E "6443|10257|2379|2380"
+sudo kill -9 <PID>
+```
