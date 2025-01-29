@@ -141,8 +141,16 @@ Mourem l'arxiu de configuració a la ubicació predeterminada de kubernetes
 ```bash
 mv kubelet.yaml .kube/config
 ```
-
-
+A continuació inicialitzarem el cluster
+```bash
+sudo kubeadm init
+```
+Despres d'iniciar ens donara una comanda semblant a la seguent, l'executarem als nodes workers per unirlos al cluster.
+```bash
+sudo kubeadm join master01a:6443 \
+--token b37old.6v6al3bsgvdoqb9y \
+--discovery-token-ca-cert-hash sha256:e2700f277b88893e0f0b2b4c20c827fc78ff3e1df16ea93cb647580d6985eec8
+```
 
 # Reiniciar cluster
 Crear configuració del cluster
